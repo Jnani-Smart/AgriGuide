@@ -1,0 +1,46 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary-color: #38a169;
+  --primary-dark: #2f855a;
+  --primary-light: #9ae6b4;
+  --secondary-color: #4299e1;
+  --accent-color: #f6ad55;
+  --text-color: #2d3748;
+  --background-color: #f7fafc;
+  --card-background: #ffffff;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  color: var(--text-color);
+  background-color: var(--background-color);
+  transition: all 0.3s ease;
+}
+
+/* Custom button styles */
+.btn-primary {
+  @apply bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all duration-300 shadow-md;
+}
+
+/* Card styles */
+.card {
+  @apply bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300;
+}
+
+/* Form input styles */
+input, select, textarea {
+  @apply transition-all duration-300;
+}
+
+/* Animation for elements */
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
