@@ -24,7 +24,7 @@ function App() {
           <Navbar />
           <main className="container mx-auto px-4 py-8 animate-fade-in">
             <Routes>
-              <Route path="/" element={<Home />} />
+              <Route index element={<Home />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/schemes" element={<Schemes />} />
               <Route path="/crop-calendar" element={<CropCalendar />} />
