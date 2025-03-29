@@ -158,10 +158,14 @@ function WeatherWidget() {
   
   if (error && !weather) {
     return (
-      <div className="fixed bottom-4 right-4 bg-white rounded-lg shadow-lg p-4">
-        <div className="flex items-center space-x-2 text-red-500">
-          <span className="text-sm">{error}</span>
+      <div className="fixed bottom-4 right-4 bg-white rounded-xl shadow-xl border border-gray-100 p-4">
+        <div className="flex items-center space-x-2">
+          <Cloud className="h-5 w-5 text-gray-400" />
+          <span className="text-sm text-gray-700">Weather data unavailable</span>
         </div>
+        {normalizedLocation && (
+          <p className="mt-1 text-xs text-gray-500">Couldn't fetch weather for {normalizedLocation}</p>
+        )}
       </div>
     );
   }
@@ -205,8 +209,8 @@ function WeatherWidget() {
           <>
             <div className="flex items-center space-x-3">
               <WeatherIcon condition={weather.condition} />
-              <span className="font-medium text-lg">{weather.temperature}°C</span>
-              <span className="text-base font-medium text-gray-700">{normalizedLocation}</span>
+              <span className="font-medium text-xl tracking-tight">{weather.temperature}°C</span>
+              <span className="text-base font-medium text-gray-700 tracking-normal">{normalizedLocation}</span>
             </div>
           </>
         ) : (
@@ -216,25 +220,25 @@ function WeatherWidget() {
         {isExpanded && profile && (weather) && (
           <div className="mt-4 space-y-4">
             <div className="grid grid-cols-2 gap-4 text-sm">
-              <div>
-                <span className="text-gray-600">Humidity</span>
-                <p className="font-medium">{weather.humidity}%</p>
+              <div className="space-y-1">
+                <span className="text-gray-600 text-xs tracking-wide">HUMIDITY</span>
+                <p className="font-medium text-lg">{weather.humidity}%</p>
               </div>
-              <div>
-                <span className="text-gray-600">Rainfall</span>
-                <p className="font-medium">{weather.rainfall} mm</p>
+              <div className="space-y-1">
+                <span className="text-gray-600 text-xs tracking-wide">RAINFALL</span>
+                <p className="font-medium text-lg">{weather.rainfall} mm</p>
               </div>
             </div>
             
             <div className="border-t pt-4">
               <h4 className="text-sm font-medium mb-2">Forecast</h4>
-              <div className="space-y-2">
+              <div className="space-y-3">
                 {weather.forecast.map((day, index) => (
-                  <div key={index} className="flex justify-between text-sm">
-                    <span className="text-gray-600">{day.day}</span>
-                    <div className="flex items-center space-x-1">
-                      <WeatherIcon condition={day.condition} className="h-4 w-4" />
-                      <span className="font-medium">{day.temp}°C</span>
+                  <div key={index} className="flex justify-between items-center">
+                    <span className="text-gray-600 text-sm tracking-wide">{day.day}</span>
+                    <div className="flex items-center space-x-2">
+                      <WeatherIcon condition={day.condition} className="h-5 w-5" />
+                      <span className="font-medium text-base">{day.temp}°C</span>
                     </div>
                   </div>
                 ))}
