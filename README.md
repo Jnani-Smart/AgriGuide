@@ -4,32 +4,38 @@ AgriGuide is a comprehensive React-based web application designed to empower Ind
 
 ## Features
 
-### 1. Farmer Profile Management
+### 1. Multi-Language Support
+- Support for multiple Indian languages
+- Language switcher component
+- Localized content and UI elements
+- Seamless language switching without page reload
+
+### 2. Farmer Profile Management
 - Create and manage detailed farmer profiles
 - Store profile data with Redux Toolkit
 - Persistent storage using localStorage
 - Profile-based scheme recommendations
 
-### 2. Government Scheme Finder
+### 3. Government Scheme Finder
 - Comprehensive database of government schemes
 - Smart filtering based on farmer profile
 - Detailed eligibility criteria and benefits
 - Step-by-step application guidance
 - Document checklist generator
 
-### 3. Market Price Information
+### 4. Market Price Information
 - Real-time market prices from multiple sources
 - Interactive price history charts
 - Regional price comparisons
 - Crop profitability analysis
 
-### 4. Weather Widget
+### 5. Weather Widget
 - Location-based current weather
 - 7-day weather forecast
 - Agricultural weather alerts
 - Soil moisture recommendations
 
-### 5. Crop Calendar
+### 6. Crop Calendar
 - Personalized planting schedules
 - Crop rotation recommendations
 - Pest and disease alerts
