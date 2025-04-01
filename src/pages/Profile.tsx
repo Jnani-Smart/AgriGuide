@@ -192,7 +192,6 @@ function Profile() {
             value={formData.annualIncome === 0 ? '' : formData.annualIncome}
             onChange={handleInputChange}
             className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500"
-            min="1000"
             step="1000"
             required
           />

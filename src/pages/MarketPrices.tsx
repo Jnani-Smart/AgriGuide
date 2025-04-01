@@ -554,61 +554,63 @@ function MarketPrices() {
               ))}
             </div>
           ) : (
-            <div className="h-48 flex flex-col">
-              <div className="flex-1 flex items-end justify-around px-2" style={{ minHeight: "150px" }}>
-                {[...marketPriceData[selectedCrop].history, marketPriceData[selectedCrop].current].map((price, index) => {
-                  const maxPrice = Math.max(...[...marketPriceData[selectedCrop].history, marketPriceData[selectedCrop].current]);
-                  const minPrice = Math.min(...[...marketPriceData[selectedCrop].history, marketPriceData[selectedCrop].current]);
-                  
-                  // Calculate height with better scaling - if the values are close together, 
-                  // the bars should still have visible differences
-                  let percentage;
-                  if (maxPrice === minPrice) {
-                    percentage = 0.8; // 80% height if all values are the same
-                  } else {
-                    percentage = 0.3 + ((price - minPrice) / (maxPrice - minPrice) * 0.5);
-                  }
-                  
-                  const heightPx = Math.floor(percentage * 150);
-                  
-                  return (
-                    <div
-                      key={index}
-                      className="w-full flex flex-col items-center px-1"
-                    >
-                      <div className="text-xs text-center bg-gray-800 text-white px-2 py-1 rounded font-medium whitespace-nowrap mb-1">
-                        ₹{price}
+            <div className="h-auto min-h-[200px] w-full overflow-x-auto">
+              <div className="h-48 flex flex-col w-full min-w-[340px]">
+                <div className="flex-1 flex items-end justify-around px-2" style={{ minHeight: "150px" }}>
+                  {[...marketPriceData[selectedCrop].history, marketPriceData[selectedCrop].current].map((price, index) => {
+                    const maxPrice = Math.max(...[...marketPriceData[selectedCrop].history, marketPriceData[selectedCrop].current]);
+                    const minPrice = Math.min(...[...marketPriceData[selectedCrop].history, marketPriceData[selectedCrop].current]);
+                    
+                    // Calculate height with better scaling - if the values are close together, 
+                    // the bars should still have visible differences
+                    let percentage;
+                    if (maxPrice === minPrice) {
+                      percentage = 0.8; // 80% height if all values are the same
+                    } else {
+                      percentage = 0.3 + ((price - minPrice) / (maxPrice - minPrice) * 0.5);
+                    }
+                    
+                    const heightPx = Math.floor(percentage * 150);
+                    
+                    return (
+                      <div
+                        key={index}
+                        className="flex-1 flex flex-col items-center px-1"
+                      >
+                        <div className="text-xs text-center bg-gray-800 text-white px-2 py-1 rounded font-medium mb-1 max-w-full truncate">
+                          ₹{price}
+                        </div>
+                        <div 
+                          className={`${price > marketPriceData[selectedCrop].current ? 'bg-red-600' : price < marketPriceData[selectedCrop].current ? 'bg-green-600' : 'bg-blue-600'} rounded-t w-full max-w-[50px]`}
+                          style={{
+                            height: `${heightPx}px`,
+                            display: "block"
+                          }}
+                        />
+                        <div className="text-xs text-gray-500 mt-2 truncate max-w-full text-center">
+                          {index === marketPriceData[selectedCrop].history.length ? t('market.now') : `${t('market.day')} ${index+1}`}
+                        </div>
                       </div>
-                      <div 
-                        className={`${price > marketPriceData[selectedCrop].current ? 'bg-red-600' : price < marketPriceData[selectedCrop].current ? 'bg-green-600' : 'bg-blue-600'} rounded-t w-12`}
-                        style={{
-                          height: `${heightPx}px`,
-                          display: "block"
-                        }}
-                      />
-                      <div className="text-xs text-gray-500 mt-2">
-                        {index === marketPriceData[selectedCrop].history.length ? t('market.now') : `${t('market.day')} ${index+1}`}
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-              <div className="flex justify-between mt-6 px-2">
-                <div className="flex items-center">
-                  <div className="w-3 h-3 rounded-full bg-green-600 mr-2"></div>
-                  <span className="text-xs text-gray-600">{t('market.lowerThan')}</span>
-                </div>
-                <div className="flex items-center">
-                  <div className="w-3 h-3 rounded-full bg-blue-600 mr-2"></div>
-                  <span className="text-xs text-gray-600">{t('market.currentIs')}</span>
-                </div>
-                <div className="flex items-center">
-                  <div className="w-3 h-3 rounded-full bg-red-600 mr-2"></div>
-                  <span className="text-xs text-gray-600">{t('market.higherThan')}</span>
+                    );
+                  })}
                 </div>
               </div>
             </div>
           )}
+          <div className="flex flex-wrap justify-between mt-6 px-2 gap-2">
+            <div className="flex items-center">
+              <div className="w-3 h-3 rounded-full bg-green-600 mr-2"></div>
+              <span className="text-xs text-gray-600">{t('market.lowerThan')}</span>
+            </div>
+            <div className="flex items-center">
+              <div className="w-3 h-3 rounded-full bg-blue-600 mr-2"></div>
+              <span className="text-xs text-gray-600">{t('market.currentIs')}</span>
+            </div>
+            <div className="flex items-center">
+              <div className="w-3 h-3 rounded-full bg-red-600 mr-2"></div>
+              <span className="text-xs text-gray-600">{t('market.higherThan')}</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>

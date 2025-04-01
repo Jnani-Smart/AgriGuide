@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Menu, X, Leaf, Home, User, FileCheck, Calendar, LineChart, LogOut } from 'lucide-react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -12,9 +12,30 @@ function Navbar() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const profile = useSelector((state: RootState) => state.farmer.profile);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { t } = useLanguage();
   const [showGreeting, setShowGreeting] = useState(false);
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const profileMenuRef = useRef<HTMLDivElement>(null);
+
+  // Handle click outside to close the profile dropdown
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (profileMenuRef.current && !profileMenuRef.current.contains(event.target as Node)) {
+        setIsProfileOpen(false);
+      }
+    }
+
+    // Add the event listener if the dropdown is open
+    if (isProfileOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+    
+    // Cleanup function to remove the event listener
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isProfileOpen]);
   
   // Get the first name only
   const getFirstName = (fullName: string) => {
@@ -26,10 +47,6 @@ function Navbar() {
     return location.pathname === path ? 'text-green-600 font-semibold bg-green-50' : 'text-gray-600 hover:text-green-600 hover:bg-green-50';
   };
   
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
-
   const navLinks = [
     { path: '/', name: t('nav.home') },
     { path: '/profile', name: t('nav.profile') },
@@ -37,9 +54,6 @@ function Navbar() {
     { path: '/crop-calendar', name: t('nav.calendar') },
     { path: '/market-prices', name: t('nav.prices') },
   ];
-  
-  const [isOpen, setIsOpen] = useState(false);
-  const [isProfileOpen, setIsProfileOpen] = useState(false);
   
   return (
     <nav className="bg-white/80 backdrop-blur-md shadow-md sticky top-0 z-50 transition-all duration-300 border-b border-gray-100">
@@ -93,15 +107,22 @@ function Navbar() {
           <div className="flex items-center space-x-2 sm:space-x-4">
             <LanguageSwitcher />
             {profile && (
-              <div className="relative">
+              <div className="relative" ref={profileMenuRef}>
                 <button
                   onClick={() => {
                     setIsProfileOpen(!isProfileOpen);
+                    setShowGreeting(false); // Always hide greeting when toggling dropdown
+                  }}
+                  onMouseEnter={() => {
+                    // Only show greeting if dropdown is closed
+                    if (!isProfileOpen) {
+                      setShowGreeting(true);
+                    }
+                  }}
+                  onMouseLeave={() => {
                     setShowGreeting(false);
                   }}
-                  onMouseEnter={() => setShowGreeting(true)}
-                  onMouseLeave={() => setShowGreeting(false)}
-                  className="inline-flex items-center px-2 sm:px-3 py-1 sm:py-2 rounded-lg text-sm font-medium transition-all duration-300 bg-white hover:bg-gray-50 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
+                  className="inline-flex items-center justify-center h-9 sm:h-10 px-2 sm:px-3 py-1 sm:py-2 rounded-lg text-sm font-medium transition-all duration-300 bg-white hover:bg-gray-50 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 min-w-[40px] sm:min-w-[90px]"
                 >
                   <User className="h-4 w-4 sm:h-5 sm:w-5 mr-1 sm:mr-2 text-green-600" />
                   <span className="text-gray-700 text-xs sm:text-sm truncate max-w-[80px] sm:max-w-[120px]">
@@ -125,9 +146,9 @@ function Navbar() {
                         navigate('/');
                         setIsProfileOpen(false);
                       }}
-                      className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center transition-colors duration-150"
+                      className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:text-red-600 flex items-center transition-colors duration-150 group"
                     >
-                      <LogOut className="h-4 w-4 mr-2" />
+                      <LogOut className="h-4 w-4 mr-2 group-hover:text-red-600 transition-colors duration-150" />
                       {t('nav.logout')}
                     </button>
                   </div>

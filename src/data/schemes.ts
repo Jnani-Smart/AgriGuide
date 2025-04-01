@@ -4,109 +4,116 @@ export const schemes: Scheme[] = [
   {
     id: 'pm-kisan',
     name: 'PM-KISAN',
-    description: 'Direct income support of ₹6,000 per year to farmer families',
+    description: 'Direct income support of ₹6,000 per year to farmer families, with latest disbursement in April 2025',
     eligibilityCriteria: {
-      maxAnnualIncome: 100000,
       minLandSize: 0.01,
     },
     benefits: [
       'Direct income support of ₹6,000 per year',
-      'Amount released in three installments',
-      'Direct transfer to bank accounts'
+      'Amount released in three installments of ₹2,000 each',
+      'Direct transfer to bank accounts',
+      'Annual assistance for purchasing inputs like fertilizers, seeds, etc.'
     ],
-    applicationProcess: 'Apply through the PM-KISAN portal or visit your local agriculture office',
+    applicationProcess: 'Apply through the PM-KISAN portal or visit your nearest Common Service Centre (CSC)',
     documents: [
       'Aadhaar Card',
       'Land Records',
-      'Bank Account Details'
+      'Bank Account Details linked with Aadhaar'
     ],
     websiteUrl: 'https://pmkisan.gov.in/'
   },
   {
     id: 'pmfby',
     name: 'Pradhan Mantri Fasal Bima Yojana',
-    description: 'Crop insurance scheme to protect farmers from crop failure',
+    description: 'Comprehensive crop insurance scheme with coverage for pre-sowing to post-harvest losses',
     eligibilityCriteria: {
       minLandSize: 0.1,
     },
     benefits: [
-      'Comprehensive risk coverage',
-      'Low premium rates',
-      'Use of technology for quick claim settlement'
+      'Coverage for crop failure due to natural calamities',
+      'Low premium rates: 2% for Kharif crops, 1.5% for Rabi crops',
+      'Use of satellite technology and mobile apps for quick claim assessment',
+      'Coverage for yield losses, prevented sowing, and post-harvest losses'
     ],
-    applicationProcess: 'Register through banks or insurance companies during crop season',
+    applicationProcess: 'Register through banks at the time of availing crop loans or through insurance companies or CSCs during the notified period',
     documents: [
-      'Land Records',
+      'Land Records/Land Possession Certificate',
       'Bank Account Details',
-      'Sowing Certificate'
+      'Aadhaar Card',
+      'Sowing Certificate/Crop Sown Declaration'
     ],
     websiteUrl: 'https://pmfby.gov.in/'
   },
   {
     id: 'kcc',
     name: 'Kisan Credit Card',
-    description: 'Provides farmers with timely access to credit',
+    description: 'Provides farmers with timely access to credit with interest subvention of 2%',
     eligibilityCriteria: {
       minAge: 18,
       maxAge: 75
     },
     benefits: [
-      'Short-term credit for cultivation',
-      'Post-harvest expenses',
-      'Maintenance of farm assets',
-      'Insurance coverage'
+      'Short-term credit for cultivation up to ₹3 lakhs at 7% interest rate',
+      'Interest subvention of 2% for prompt repayment',
+      'Coverage for post-harvest expenses and farm asset maintenance',
+      'Personal accident insurance up to ₹2 lakhs',
+      'No collateral required for loans up to ₹1.6 lakhs'
     ],
-    applicationProcess: 'Apply through your nearest bank branch or online banking portal',
+    applicationProcess: 'Apply through your nearest bank branch, online banking portal, or through agriculture department officers',
     documents: [
-      'Identity Proof',
+      'Identity Proof (Aadhaar/Voter ID)',
       'Address Proof',
-      'Land Records',
+      'Land Records/Tenancy Certificate',
       'Passport Size Photographs',
       'Bank Account Details'
     ],
-    websiteUrl: 'https://www.india.gov.in/spotlight/kisan-credit-card'
+    websiteUrl: 'https://www.nabard.org/content.aspx?id=488'
   },
   {
     id: 'pkvy',
     name: 'Paramparagat Krishi Vikas Yojana',
-    description: 'Promotes organic farming practices',
+    description: 'Promotes organic farming with cluster-based certification approach and marketing support',
     eligibilityCriteria: {
       minLandSize: 0.5
     },
     benefits: [
-      'Financial assistance for organic farming',
-      'Training on organic farming',
-      'Certification support',
-      'Marketing assistance'
+      'Financial assistance of ₹50,000 per hectare over three years',
+      'Dedicated training on organic farming practices',
+      'Free organic certification under PGS-India',
+      'Marketing assistance and brand building for organic products',
+      'Additional 10% premium on organic produce'
     ],
-    applicationProcess: 'Apply through your local agriculture department or PKVY portal',
+    applicationProcess: 'Apply through your district agriculture office or connect with local Farmer Producer Organizations',
     documents: [
       'Land Records',
       'Bank Account Details',
-      'Farmer ID',
-      'Soil Test Reports'
+      'Farmer ID or Aadhaar',
+      'Soil Test Reports (if available)',
+      'Declaration of no chemical use for last 3 months'
     ],
     websiteUrl: 'https://pgsindia-ncof.gov.in/pkvy/index.aspx'
   },
   {
     id: 'nmsa',
     name: 'National Mission for Sustainable Agriculture',
-    description: 'Promotes sustainable agriculture practices',
+    description: 'Comprehensive program to promote climate-resilient agricultural practices',
     eligibilityCriteria: {
       minLandSize: 0.2
     },
     benefits: [
-      'Water conservation support',
-      'Soil health management',
-      'Climate change adaptation measures',
-      'Market development assistance'
+      'Subsidy up to 50% for water conservation structures',
+      'Free soil health cards and testing',
+      'Assistance for micro-irrigation systems',
+      'Support for climate-resilient crop varieties',
+      'Training on climate adaptation techniques'
     ],
-    applicationProcess: 'Apply through state agriculture department or NMSA portal',
+    applicationProcess: 'Apply through your district agriculture office or NMSA portal',
     documents: [
       'Land Records',
       'Bank Account Details',
-      'Soil Health Card',
-      'Identity Proof'
+      'Aadhaar Card',
+      'Soil Health Card (if available)',
+      'Farm Plan'
     ],
     websiteUrl: 'https://nmsa.dac.gov.in/'
   },
@@ -177,7 +184,7 @@ export const schemes: Scheme[] = [
       'Mobile Phone Number',
       'Passport Size Photograph'
     ],
-    websiteUrl: 'https://www.tn.gov.in/scheme/data_view/6853'
+    websiteUrl: 'https://play.google.com/store/search?q=Uzhavan%20App&c=apps'
   },
   {
     id: 'cauvery-subsidy',
@@ -200,7 +207,7 @@ export const schemes: Scheme[] = [
       'Bank Account Details',
       'Water Usage Plan'
     ],
-    websiteUrl: 'https://www.tn.gov.in/scheme/data_view/19157'
+    websiteUrl: 'https://tnau.ac.in/'
   },
   {
     id: 'crop-insurance-tn',
@@ -223,7 +230,7 @@ export const schemes: Scheme[] = [
       'Bank Account Details',
       'Proof of Crop Sown'
     ],
-    websiteUrl: 'https://agri.tn.gov.in/crop-insurance'
+    websiteUrl: 'https://tnagrisnet.tn.gov.in/'
   },
   // Recently Updated/Added National Schemes
   {
@@ -294,7 +301,7 @@ export const schemes: Scheme[] = [
       'Bank Statement',
       'Business Plan'
     ],
-    websiteUrl: 'https://dahd.nic.in/schemes/animal-husbandry-infrastructure-development-fund'
+    websiteUrl: 'https://dahd.gov.in/'
   },
   {
     id: 'e-nam',

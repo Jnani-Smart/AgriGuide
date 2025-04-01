@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
-import { Sun, Cloud, CloudRain, CloudDrizzle, CloudSnow, CloudFog, CloudLightning, Wind, Loader, AlertCircle } from 'lucide-react';
+import { Sun, Cloud, CloudRain, CloudDrizzle, CloudSnow, CloudFog, CloudLightning, Loader, AlertCircle } from 'lucide-react';
 import type { RootState } from '../store';
 import { useLanguage } from '../contexts/LanguageContext';
 
@@ -27,6 +27,9 @@ function WeatherWidget() {
   const [isVisible, setIsVisible] = useState(false);
   const [timer, setTimer] = useState<number | null>(null);
   const [showError, setShowError] = useState(false);
+  const [userLocation, setUserLocation] = useState<{lat: number; lon: number} | null>(null);
+  const [usingGeolocation, setUsingGeolocation] = useState(false);
+  const [locationDenied, setLocationDenied] = useState(false);
   const widgetRef = useRef<HTMLDivElement>(null);
 
   // Function to normalize city names - corrects minor spelling mistakes and standardizes capitalization
@@ -64,7 +67,7 @@ function WeatherWidget() {
     return normalized;
   };
 
-  // Function to hide error message after a delay
+  // Function to hide error message after a delay and show location weather
   const startErrorHideTimer = () => {
     // Clear any existing timer
     if (timer) {
@@ -75,15 +78,29 @@ function WeatherWidget() {
     setIsVisible(true);
     setShowError(true);
     
-    // Start a new timer to hide the error after 30 seconds
+    // Start a new timer to hide the error after 8 seconds
     const newTimer = setTimeout(() => {
+      console.log('Error timer expired, showing location weather');
       setShowError(false);
-      setIsVisible(weather !== null); // Keep visible if weather data exists
-    }, 30000); // 30 seconds
+      
+      // If we have user's geolocation, immediately fall back to that after error
+      if (userLocation) {
+        console.log('Using geolocation fallback:', userLocation);
+        // Ensure the widget stays visible during transition
+        setIsVisible(true);
+        fetchWeatherDataByCoords(userLocation.lat, userLocation.lon);
+        setUsingGeolocation(true);
+      } else {
+        console.log('No geolocation available');
+        // If no geolocation, try to get it now - keep widget visible
+        setIsVisible(true);
+        getUserLocation();
+      }
+    }, 5000); // Reduced to 5 seconds for faster feedback
     
     setTimer(newTimer);
   };
-  
+
   // Reset error timer if user interacts with the error
   const resetErrorTimer = () => {
     if (timer) {
@@ -93,19 +110,139 @@ function WeatherWidget() {
     setIsVisible(true);
     
     const newTimer = setTimeout(() => {
+      console.log('Reset error timer expired, showing location weather');
       setShowError(false);
-      setIsVisible(weather !== null); // Keep visible if weather data exists
-    }, 30000); // 30 seconds
+      
+      // If we have user's geolocation, fall back to that after error
+      if (userLocation) {
+        console.log('Using geolocation fallback:', userLocation);
+        // Ensure the widget stays visible during transition
+        setIsVisible(true); 
+        fetchWeatherDataByCoords(userLocation.lat, userLocation.lon);
+        setUsingGeolocation(true);
+      } else {
+        console.log('No geolocation available');
+        // If no geolocation, try to get it now - keep widget visible
+        setIsVisible(true);
+        getUserLocation();
+      }
+    }, 5000); // Reduced to 5 seconds for faster feedback
     
     setTimer(newTimer);
   };
-  
+
+  // Get user's location using browser geolocation API
+  const getUserLocation = () => {
+    console.log('Getting user location');
+    if (!navigator.geolocation) {
+      console.log('Geolocation is not supported by this browser.');
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        console.log('Got position:', position.coords);
+        const newLocation = {
+          lat: position.coords.latitude,
+          lon: position.coords.longitude
+        };
+        setUserLocation(newLocation);
+        setLocationDenied(false);
+        
+        // If we're currently using geolocation (or showing an error), update immediately
+        if (usingGeolocation || showError) {
+          fetchWeatherDataByCoords(newLocation.lat, newLocation.lon);
+        }
+      },
+      (error) => {
+        console.error('Error getting location:', error);
+        setLocationDenied(true);
+      },
+      { timeout: 10000, enableHighAccuracy: false }
+    );
+  };
+
+  // Get weather data by coordinates
+  const fetchWeatherDataByCoords = async (lat: number, lon: number) => {
+    console.log('Fetching weather data by coordinates:', lat, lon);
+    setIsLoading(true);
+    setError(null);
+    setShowError(false);
+    setIsVisible(true); // Always ensure visibility
+    
+    try {
+      // Using OpenWeatherMap API (free tier)
+      const API_KEY = 'bd5e378503939ddaee76f12ad7a97608'; // This is a demo key, in production use environment variables
+      const response = await fetch(
+        `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&appid=${API_KEY}`
+      );
+      
+      if (!response.ok) {
+        throw new Error('Weather data not available');
+      }
+      
+      const data = await response.json();
+      console.log('Got weather data for coordinates');
+      
+      // Get location name from coordinates
+      const locationName = data.city ? data.city.name : 'Your Location';
+      setNormalizedLocation(locationName);
+      
+      // Process current weather
+      const currentWeather = data.list[0];
+      const forecastDays = data.list.filter((_: any, i: number) => i % 8 === 0).slice(1, 3);
+      
+      const weatherData = {
+        temperature: Math.round(currentWeather.main.temp),
+        condition: currentWeather.weather[0].main,
+        humidity: currentWeather.main.humidity,
+        rainfall: currentWeather.rain ? currentWeather.rain['3h'] || 0 : 0,
+        forecast: forecastDays.map((day: any) => ({
+          day: new Date(day.dt * 1000).toLocaleDateString('en-US', { weekday: 'long' }),
+          temp: Math.round(day.main.temp),
+          condition: day.weather[0].main
+        }))
+      };
+      
+      console.log('Setting weather data:', weatherData);
+      setWeather(weatherData);
+      
+      // Make widget visible without auto-hide
+      setIsVisible(true);
+    } catch (err) {
+      console.error('Error fetching weather data by coordinates:', err);
+      setError('Could not load weather data');
+      setWeather(null);
+      setShowError(true);
+      setIsVisible(true);
+      // Don't start error hide timer here to avoid loops
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Initial loading of geolocation
+  useEffect(() => {
+    if (!profile?.city && !userLocation && !locationDenied) {
+      getUserLocation();
+    }
+  }, []);
+
+  // Effect to fetch weather by coordinates when geolocation is obtained
+  useEffect(() => {
+    if (userLocation && !profile?.city && !locationDenied) {
+      fetchWeatherDataByCoords(userLocation.lat, userLocation.lon);
+      setUsingGeolocation(true);
+    }
+  }, [userLocation]);
+
   useEffect(() => {
     let locationToUse = '';
     let refreshInterval: number | undefined;
     
     if (profile?.city) {
       locationToUse = profile.city;
+      setUsingGeolocation(false);
     }
     
     if (locationToUse) {
@@ -120,7 +257,7 @@ function WeatherWidget() {
       
       // Make widget visible without auto-hide when location is valid
       setIsVisible(true);
-    } else {
+    } else if (!userLocation && !usingGeolocation) {
       setNormalizedLocation('');
       setWeather(null);
       setIsVisible(false);
@@ -145,6 +282,7 @@ function WeatherWidget() {
     setIsLoading(true);
     setError(null);
     setShowError(false);
+    setIsVisible(true); // Always ensure visibility
     try {
       // Using OpenWeatherMap API (free tier)
       const API_KEY = 'bd5e378503939ddaee76f12ad7a97608'; // This is a demo key, in production use environment variables
@@ -176,18 +314,25 @@ function WeatherWidget() {
       
       // Make widget visible without auto-hide
       setIsVisible(true);
+      setUsingGeolocation(false);
     } catch (err) {
       console.error('Error fetching weather data:', err);
       setError('Could not load weather data');
       setWeather(null);
       setShowError(true);
       setIsVisible(true);
-      startErrorHideTimer(); // Show error message for 30 seconds
+      startErrorHideTimer(); // Show error message for 8 seconds
+      
+      // If we have user's geolocation, fall back to that after error timer expires
+      if (userLocation) {
+        // The actual fetch will happen when timer expires
+        setUsingGeolocation(true);
+      }
     } finally {
       setIsLoading(false);
     }
   };
-  
+
   // Function to get appropriate weather icon based on raw condition
   const getWeatherIconComponent = (condition: string, className = "h-6 w-6") => {
     // Map API weather conditions to icons
@@ -213,23 +358,6 @@ function WeatherWidget() {
     }
   };
 
-  // Get readable weather condition from API condition
-  const getReadableCondition = (condition: string): string => {
-    const conditionMap: Record<string, string> = {
-      'Clear': 'Sunny',
-      'Clouds': 'Partly Cloudy',
-      'Rain': 'Rainy',
-      'Drizzle': 'Drizzle',
-      'Thunderstorm': 'Thunderstorm',
-      'Snow': 'Snowy',
-      'Mist': 'Foggy',
-      'Fog': 'Foggy',
-      'Haze': 'Foggy'
-    };
-    
-    return conditionMap[condition] || condition;
-  };
-
   // Add click outside handler
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -247,11 +375,7 @@ function WeatherWidget() {
     };
   }, [isExpanded]);
 
-  // If no city is given, don't show anything
-  if (!profile?.city) {
-    return null;
-  }
-
+  // Always render the component, but it might be invisible
   if (isLoading) {
     return (
       <div className="fixed bottom-4 right-4 bg-white rounded-lg shadow-lg p-4 animate-fade-in">
@@ -293,13 +417,13 @@ function WeatherWidget() {
           <>
             <div className="flex items-center space-x-2 sm:space-x-3">
               {getWeatherIconComponent(weather.condition, isExpanded ? 'h-5 w-5 sm:h-6 sm:w-6' : 'h-6 w-6 sm:h-8 sm:w-8')}
-              <span className="font-medium text-lg sm:text-xl tracking-tight">{weather.temperature}°C</span>
+              <span className="font-medium text-lg sm:text-xl tracking-tight">{weather.temperature}&#8451;</span>
               <span className={`text-sm sm:text-base font-medium text-gray-700 tracking-normal ${!isExpanded && 'hidden sm:inline'}`}>{normalizedLocation}</span>
             </div>
           </>
         )}
         
-        {isExpanded && profile && weather && (
+        {isExpanded && weather && (
           <div className="mt-3 sm:mt-4 space-y-3 sm:space-y-4">
             <div className="grid grid-cols-2 gap-3 sm:gap-4 text-sm">
               <div className="space-y-1">
@@ -320,7 +444,7 @@ function WeatherWidget() {
                     <span className="text-gray-600 text-xs sm:text-sm tracking-wide">{day.day}</span>
                     <div className="flex items-center space-x-2">
                       {getWeatherIconComponent(day.condition, "h-4 w-4 sm:h-5 sm:w-5")}
-                      <span className="font-medium text-sm sm:text-base">{day.temp}°C</span>
+                      <span className="font-medium text-sm sm:text-base">{day.temp}&#8451;</span>
                     </div>
                   </div>
                 ))}
