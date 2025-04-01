@@ -282,47 +282,45 @@ function WeatherWidget() {
   return (
     <div 
       ref={widgetRef}
-      className={`fixed bottom-4 right-4 bg-white rounded-xl shadow-xl border border-gray-100 transition-all duration-300 ${
-        isExpanded ? 'w-80' : 'w-auto'
-      } ${isVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+      className={`fixed bottom-4 right-4 bg-white rounded-xl shadow-xl border border-gray-100 transition-all duration-300 ${isExpanded ? 'w-80' : 'w-auto'} ${isVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'} hover:bg-gray-50`}
       onClick={(e) => {
         e.stopPropagation();
         setIsExpanded(!isExpanded);
       }}
     >
-      <div className="p-4 cursor-pointer">
+      <div className="p-3 sm:p-4 cursor-pointer">
         {normalizedLocation && weather && (
           <>
-            <div className="flex items-center space-x-3">
-              {getWeatherIconComponent(weather.condition)}
-              <span className="font-medium text-xl tracking-tight">{weather.temperature}°C</span>
-              <span className="text-base font-medium text-gray-700 tracking-normal">{normalizedLocation}</span>
+            <div className="flex items-center space-x-2 sm:space-x-3">
+              {getWeatherIconComponent(weather.condition, isExpanded ? 'h-5 w-5 sm:h-6 sm:w-6' : 'h-6 w-6 sm:h-8 sm:w-8')}
+              <span className="font-medium text-lg sm:text-xl tracking-tight">{weather.temperature}°C</span>
+              <span className={`text-sm sm:text-base font-medium text-gray-700 tracking-normal ${!isExpanded && 'hidden sm:inline'}`}>{normalizedLocation}</span>
             </div>
           </>
         )}
         
         {isExpanded && profile && weather && (
-          <div className="mt-4 space-y-4">
-            <div className="grid grid-cols-2 gap-4 text-sm">
+          <div className="mt-3 sm:mt-4 space-y-3 sm:space-y-4">
+            <div className="grid grid-cols-2 gap-3 sm:gap-4 text-sm">
               <div className="space-y-1">
                 <span className="text-gray-600 text-xs tracking-wide">{t('weather.humidity')}</span>
-                <p className="font-medium text-lg">{weather.humidity}%</p>
+                <p className="font-medium text-base sm:text-lg">{weather.humidity}%</p>
               </div>
               <div className="space-y-1">
                 <span className="text-gray-600 text-xs tracking-wide">{t('weather.rainfall')}</span>
-                <p className="font-medium text-lg">{weather.rainfall} mm</p>
+                <p className="font-medium text-base sm:text-lg">{weather.rainfall} mm</p>
               </div>
             </div>
             
-            <div className="border-t pt-4">
-              <h4 className="text-sm font-medium mb-2">{t('weather.forecast')}</h4>
-              <div className="space-y-3">
+            <div className="border-t pt-3 sm:pt-4">
+              <h4 className="text-xs sm:text-sm font-medium mb-2">{t('weather.forecast')}</h4>
+              <div className="space-y-2 sm:space-y-3">
                 {weather.forecast.map((day, index) => (
                   <div key={index} className="flex justify-between items-center">
-                    <span className="text-gray-600 text-sm tracking-wide">{day.day}</span>
+                    <span className="text-gray-600 text-xs sm:text-sm tracking-wide">{day.day}</span>
                     <div className="flex items-center space-x-2">
-                      {getWeatherIconComponent(day.condition, "h-5 w-5")}
-                      <span className="font-medium text-base">{day.temp}°C</span>
+                      {getWeatherIconComponent(day.condition, "h-4 w-4 sm:h-5 sm:w-5")}
+                      <span className="font-medium text-sm sm:text-base">{day.temp}°C</span>
                     </div>
                   </div>
                 ))}
