@@ -13,26 +13,99 @@
   --card-background: #ffffff;
 }
 
+html, body {
+  height: 100%;
+  min-height: 100vh;
+  font-size: 16px;
+}
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   color: var(--text-color);
   background-color: var(--background-color);
   transition: all 0.3s ease;
+  min-height: 100vh;
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (max-width: 640px) {
+  html {
+    font-size: 15px;
+  }
+}
+@media (max-width: 480px) {
+  html {
+    font-size: 14px;
+  }
 }
 
 /* Custom button styles */
 .btn-primary {
-  @apply bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all duration-300 shadow-md;
+  @apply bg-green-600 text-white py-3 px-5 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all duration-300 shadow-md text-base sm:text-lg;
+  min-width: 44px;
+  min-height: 44px;
+}
+
+/* Utility for touch targets */
+.touch-target {
+  min-width: 44px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Responsive overflow utility */
+.overflow-x-responsive {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Truncate utility for long text */
+.truncate-responsive {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
 }
 
 /* Card styles */
 .card {
-  @apply bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300;
+  @apply bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 p-4 sm:p-6;
+  min-width: 0;
+}
+
+/* Responsive table styles */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+th, td {
+  min-width: 40px;
+  padding: 0.5rem;
+  text-align: left;
+  vertical-align: middle;
+}
+@media (max-width: 640px) {
+  th, td {
+    padding: 0.3rem;
+    font-size: 0.95em;
+  }
 }
 
 /* Form input styles */
 input, select, textarea {
   @apply transition-all duration-300;
+  min-width: 0;
+  min-height: 44px;
+  font-size: 1em;
+}
+
+/* Ensure select and input fit small screens */
+@media (max-width: 480px) {
+  input, select, textarea {
+    font-size: 0.96em;
+    padding: 0.5rem 0.7rem;
+  }
 }
 
 /* Animation for elements */

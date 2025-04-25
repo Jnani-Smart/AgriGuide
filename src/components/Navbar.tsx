@@ -56,17 +56,19 @@ function Navbar() {
   ];
   
   return (
-    <nav className="bg-white/80 backdrop-blur-md shadow-md sticky top-0 z-50 transition-all duration-300 border-b border-gray-100">
+    <>
+      <a href="#main-content" className="sr-only focus:not-sr-only absolute left-2 top-2 bg-green-600 text-white px-3 py-2 rounded z-50">Skip to main content</a>
+      <nav aria-label="Main navigation" role="navigation" className="bg-white/80 backdrop-blur-md shadow-md sticky top-0 z-50 transition-all duration-300 border-b border-gray-100">
       <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6">
         <div className="flex items-center justify-between h-16 sm:h-18 md:h-20 w-full">
           <div className="flex-shrink-0 flex items-center">
-            <Link to="/" className="text-xl sm:text-2xl font-bold text-green-600 flex items-center hover:text-green-700 transition-colors">
+            <Link to="/" className="text-xl sm:text-2xl font-bold text-green-600 flex items-center hover:text-green-700 transition-colors min-w-0">
               <Leaf className="h-6 w-6 sm:h-7 sm:w-7 mr-1 sm:mr-2" />
-              <span className="bg-gradient-to-r from-green-600 to-green-500 bg-clip-text text-transparent">AgriGuide</span>
+              <span className="bg-gradient-to-r from-green-600 to-green-500 bg-clip-text text-transparent truncate-responsive">AgriGuide</span>
             </Link>
           </div>
           
-          <div className="hidden sm:flex items-center justify-center flex-1 ml-6 mr-4">
+          <div className="hidden sm:flex items-center justify-center flex-1 ml-6 mr-4 min-w-0">
             <div className="flex sm:space-x-2 md:space-x-4 lg:space-x-6">
               {navLinks.map(link => {
                 let Icon;
@@ -125,7 +127,7 @@ function Navbar() {
                   className="inline-flex items-center justify-center h-9 sm:h-10 px-2 sm:px-3 py-1 sm:py-2 rounded-lg text-sm font-medium transition-all duration-300 bg-white hover:bg-gray-50 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 min-w-[40px] sm:min-w-[90px]"
                 >
                   <User className="h-4 w-4 sm:h-5 sm:w-5 mr-1 sm:mr-2 text-green-600" />
-                  <span className="text-gray-700 text-xs sm:text-sm truncate max-w-[80px] sm:max-w-[120px]">
+                  <span className="text-gray-700 text-xs sm:text-sm truncate-responsive max-w-[80px] sm:max-w-[120px]">
                     {getFirstName(profile.name)}
                   </span>
                 </button>
@@ -159,7 +161,8 @@ function Navbar() {
             <div className="sm:hidden">
               <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="inline-flex items-center justify-center p-2 rounded-lg text-gray-600 hover:text-gray-900 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all duration-300"
+                aria-label={isOpen ? t('nav.closeMenu') : t('nav.openMenu')}
+                className="inline-flex items-center justify-center p-3 rounded-lg text-gray-600 hover:text-gray-900 hover:bg-gray-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2 transition-all duration-300 touch-target"
               >
                 <span className="sr-only">{t('nav.openMenu')}</span>
                 {isOpen ? <X className="block h-6 w-6" /> : <Menu className="block h-6 w-6" />}
@@ -170,7 +173,7 @@ function Navbar() {
       </div>
 
       {isOpen && (
-        <div className="sm:hidden bg-white/95 backdrop-blur-sm shadow-lg rounded-b-xl animate-fade-in">
+        <div className="sm:hidden bg-white/95 backdrop-blur-sm shadow-lg rounded-b-xl animate-fade-in" tabIndex={-1}>
           <div className="pt-2 pb-3 space-y-1 px-3">
             {navLinks.map(link => {
               let Icon;
@@ -211,6 +214,7 @@ function Navbar() {
         </div>
       )}
     </nav>
+      </>
   );
 }
 

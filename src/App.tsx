@@ -23,19 +23,22 @@ function App() {
       <LanguageProvider>
         <DocumentMeta />
         <Router>
-          <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100">
-            <Navbar />
-            <main className="container mx-auto px-3 sm:px-4 md:px-6 py-4 sm:py-6 md:py-8 animate-fade-in">
-              <Routes>
-                <Route index element={<Home />} />
-                <Route path="/profile" element={<Profile />} />
-                <Route path="/schemes" element={<Schemes />} />
-                <Route path="/crop-calendar" element={<CropCalendar />} />
-                <Route path="/market-prices" element={<MarketPrices />} />
-              </Routes>
-            </main>
-            <WeatherWidget />
-          </div>
+          <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 flex flex-col scroll-smooth touch-manipulation">
+  <Navbar />
+  <main
+    aria-label="Main content"
+    className="flex-1 container mx-auto px-2 sm:px-4 md:px-6 py-4 sm:py-6 md:py-8 animate-fade-in min-w-0"
+  >
+    <Routes>
+      <Route index element={<Home />} />
+      <Route path="/profile" element={<Profile />} />
+      <Route path="/schemes" element={<Schemes />} />
+      <Route path="/crop-calendar" element={<CropCalendar />} />
+      <Route path="/market-prices" element={<MarketPrices />} />
+    </Routes>
+  </main>
+  <WeatherWidget />
+</div>
         </Router>
       </LanguageProvider>
     </Provider>
