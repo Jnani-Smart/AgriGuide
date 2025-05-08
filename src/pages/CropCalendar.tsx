@@ -152,7 +152,7 @@ function CropCalendar() {
             className="text-sm bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition-colors flex items-center shadow-sm hover:shadow-md"
           >
             <User className="h-4 w-4 mr-2" />
-            {t('profile.createProfileButton')}
+            {t('profile.createProfileButton') === 'profile.createProfileButton' ? 'Create Farmer Profile' : t('profile.createProfileButton')}
           </button>
         )}
       </div>
