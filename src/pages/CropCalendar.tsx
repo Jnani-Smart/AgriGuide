@@ -126,32 +126,32 @@ function CropCalendar() {
         
         {farmerProfile ? (
           <div className="flex items-center">
-            <label className="inline-flex items-center mr-4 cursor-pointer">
+            <label className="inline-flex items-center mr-4 cursor-pointer group">
               <input 
                 type="checkbox" 
                 checked={showOnlyUserCrops} 
                 onChange={() => setShowOnlyUserCrops(!showOnlyUserCrops)}
-                className="form-checkbox h-4 w-4 text-green-600 rounded focus:ring-green-500 border-gray-300"
+                className="form-checkbox h-5 w-5 text-green-600 rounded-md border-gray-300 focus:ring-2 focus:ring-green-500 focus:ring-offset-0 transition-all duration-150 ease-in-out group-hover:border-green-500"
               />
-              <span className="ml-2 text-sm text-gray-700 flex items-center">
-                <Filter className="h-4 w-4 mr-1" />
+              <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-900 flex items-center">
+                <Filter className="h-4 w-4 mr-1.5 text-gray-500 group-hover:text-green-600" />
                 {t('calendar.showMyCrops')}
               </span>
             </label>
             <button 
               onClick={handleGoToProfile}
-              className="text-sm text-green-600 hover:text-green-800 flex items-center"
+              className="text-sm bg-green-100 text-green-700 px-3 py-1.5 rounded-md hover:bg-green-200 transition-colors flex items-center shadow-sm hover:shadow-md"
             >
-              <User className="h-4 w-4 mr-1" />
+              <User className="h-4 w-4 mr-1.5" />
               {t('calendar.updateCrops')}
             </button>
           </div>
         ) : (
           <button 
             onClick={handleGoToProfile}
-            className="text-sm bg-green-100 text-green-700 px-3 py-1 rounded-full hover:bg-green-200 flex items-center"
+            className="text-sm bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition-colors flex items-center shadow-sm hover:shadow-md"
           >
-            <User className="h-4 w-4 mr-1" />
+            <User className="h-4 w-4 mr-2" />
             {t('profile.createProfileButton')}
           </button>
         )}
