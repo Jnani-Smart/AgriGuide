@@ -57,7 +57,8 @@ const en: TranslationRecord = {
   
   // Profile
   'profile.title': 'Farmer Profile',
-  'profile.subtitle': 'Complete your profile to get personalized recommendations and weather updates.',
+  'profile.subtitle': 'Please provide your details to help us recommend suitable schemes for you.',
+  'profile.createProfileButton': 'Create Farmer Profile',
   'profile.name': 'Full Name',
   'profile.age': 'Age',
   'profile.state': 'State',
@@ -196,7 +197,8 @@ const ta: TranslationRecord = {
   
   // Profile
   'profile.title': 'விவசாயி சுயவிவரம்',
-  'profile.subtitle': 'தனிப்பயனாக்கப்பட்ட பரிந்துரைகள் மற்றும் வானிலை புதுப்பிப்புகளைப் பெற உங்கள் சுயவிவரத்தை நிறைவு செய்யவும்.',
+  'profile.subtitle': 'உங்களுக்கு பொருத்தமான திட்டங்களை பரிந்துரைக்க உதவ உங்கள் விவரங்களை வழங்கவும்.',
+  'profile.createProfileButton': 'விவசாயி சுயவிவரத்தை உருவாக்குக',
   'profile.name': 'முழு பெயர்',
   'profile.age': 'வயது',
   'profile.state': 'மாநிலம்',
