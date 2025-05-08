@@ -8,6 +8,18 @@ import type { Farmer } from '../types';
 import { indianStates } from '../data/states';
 import { useLanguage } from '../contexts/LanguageContext';
 
+// Import all crops from crop calendar for consistency
+const allCrops = [
+  // Kharif crops
+  'Rice', 'Cotton', 'Sugarcane', 'Groundnut', 'Turmeric', 'Blackgram', 'Chillies', 'Ragi',
+  // Rabi crops
+  'Wheat', 'Mustard', 'Gram', 'Samba',
+  // Zaid crops
+  'Watermelon', 'Muskmelon', 'Cucumber',
+  // Perennial crops
+  'Coconut', 'Banana'
+];
+
 function Profile() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -76,6 +88,7 @@ function Profile() {
 
   // Helper function to get translated crop name
   const getTranslatedCropName = (cropName: string): string => {
+    // Standardize crop key to match translation keys
     const cropKey = cropName.toLowerCase().replace(/\s+/g, '');
     return t(`crop.${cropKey}`);
   };
@@ -204,7 +217,7 @@ function Profile() {
         <div>
           <span className="block text-sm font-medium text-gray-700 mb-2">{t('profile.crops')}</span>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-            {['Rice', 'Groundnut', 'Turmeric', 'Coconut', 'Banana', 'Black Gram', 'Sugarcane', 'Cotton', 'Chillies', 'Ragi'].map(crop => (
+            {allCrops.map(crop => (
               <label key={crop} className="flex items-center">
                 <input
                   type="checkbox"

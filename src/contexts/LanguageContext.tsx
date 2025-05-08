@@ -145,11 +145,16 @@ const en: TranslationRecord = {
   'calendar.sowingTime': 'Sowing Time',
   'calendar.harvestTime': 'Harvest Time',
   'calendar.months': 'Months',
+  'calendar.showMyCrops': 'Show only my crops',
+  'calendar.updateCrops': 'Update crops',
+  'calendar.noSelectedCrops': 'No selected crops for this season. Select crops in your profile.',
+  'calendar.noCrops': 'No crops available for this season.',
   
   // Season names
   'season.kharif': 'Kharif Season',
   'season.rabi': 'Rabi Season',
   'season.zaid': 'Zaid Season',
+  'season.perennial': 'Perennial Crops',
   
   // Weather Widget
   'weather.loading': 'Loading weather...',
@@ -279,11 +284,16 @@ const ta: TranslationRecord = {
   'calendar.sowingTime': 'விதைக்கும் நேரம்',
   'calendar.harvestTime': 'அறுவடை நேரம்',
   'calendar.months': 'மாதங்கள்',
+  'calendar.showMyCrops': 'என் பயிர்களை மட்டும் காட்டு',
+  'calendar.updateCrops': 'பயிர்களைப் புதுப்பிக்க',
+  'calendar.noSelectedCrops': 'இந்த பருவத்திற்கு தேர்ந்தெடுக்கப்பட்ட பயிர்கள் இல்லை. உங்கள் சுயவிவரத்தில் பயிர்களைத் தேர்ந்தெடுக்கவும்.',
+  'calendar.noCrops': 'இந்த பருவத்திற்கு பயிர்கள் இல்லை.',
   
   // Season names
   'season.kharif': 'காரிஃப் பருவம்',
   'season.rabi': 'ரபி பருவம்',
   'season.zaid': 'ஜாயிட் பருவம்',
+  'season.perennial': 'பன்னாட்டு பயிர்கள்',
   
   // Weather Widget
   'weather.loading': 'வானிலை ஏற்றுகிறது...',
