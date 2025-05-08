@@ -17,7 +17,8 @@ const cropCalendarData = [
     crops: [
       { name: 'wheat', sowingTime: 'October-November', harvestTime: 'March-April' },
       { name: 'mustard', sowingTime: 'September-October', harvestTime: 'February-March' },
-      { name: 'gram', sowingTime: 'October-November', harvestTime: 'February-March' }
+      { name: 'gram', sowingTime: 'October-November', harvestTime: 'February-March' },
+      { name: 'samba', sowingTime: 'August-October', harvestTime: 'January-February' }
     ]
   },
   {

@@ -96,7 +96,8 @@ const en: TranslationRecord = {
   'market.higherThan': 'Higher than current',
   
   // Crops
-  'crop.rice': 'Rice',
+  'crop.rice': 'Rice(Kuruvai)',
+  'crop.samba': 'Rice(Samba)',
   'crop.groundnut': 'Groundnut',
   'crop.turmeric': 'Turmeric',
   'crop.coconut': 'Coconut',
@@ -229,7 +230,8 @@ const ta: TranslationRecord = {
   'market.higherThan': 'தற்போதையதை விட அதிகம்',
   
   // Crops
-  'crop.rice': 'அரிசி',
+  'crop.rice': 'குறுவை',
+  'crop.samba': 'சம்பா',
   'crop.groundnut': 'நிலக்கடலை',
   'crop.turmeric': 'மஞ்சள்',
   'crop.coconut': 'தேங்காய்',
@@ -342,4 +344,4 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
 };
 
 // Hook to use the language context
-export const useLanguage = () => useContext(LanguageContext); 
+export const useLanguage = () => useContext(LanguageContext);
